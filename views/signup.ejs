@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>signup page</title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <%- include('./partial/header') %>
+  </head>
+
+  <body>
+    <form
+      id="signUpForm"
+      class="mx-auto mt-5 col-md-4"
+      method="POST"
+      action="/auth/signup"
+    >
+      <div class="mb-3">
+        <label for="exampleInputUsername1" class="form-label">Username</label>
+        <input type="text" name="username" class="form-control" id="username" />
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label">Password</label>
+        <input
+          type="password"
+          name="password"
+          class="form-control"
+          id="password"
+        />
+        <div id="UsernameHelp" class="form-text">
+          have an account? <a href="/auth/signin">sing in</a>
+        </div>
+      </div>
+
+      <% if (err) { %>
+      <div class="alert alert-danger" role="alert"><%= err%></div>
+
+      <% } %>
+
+      <button id="but1" type="click" class="btn btn-primary">Sign up</button>
+    </form>
+
+    <script>
+      if (localStorage.getItem("signInCash")) {
+        localStorage.removeItem("signInCash");
+      }
+
+      let userCash = localStorage.getItem("signUpCash");
+      if (userCash) {
+        document.getElementById("username").value =
+          JSON.parse(userCash).username;
+        document.getElementById("password").value =
+          JSON.parse(userCash).username;
+      }
+
+      document.getElementById("but1").addEventListener("click", () => {
+        localStorage.setItem(
+          "signUpCash",
+          JSON.stringify({
+            username: document.getElementById("username").value,
+            password: document.getElementById("password").value,
+          })
+        );
+      });
+    </script>
+  </body>
+</html>
